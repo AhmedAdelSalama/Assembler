@@ -4,7 +4,7 @@
 
 using namespace std;
 
-//A function to extract label, opcode , operands and operator without any additional characters "except the ones
+//A function to extract label, instruction , operands and operator without any additional characters "except the ones
 //indicating different addressing modes".
 //the boolean parameter to know the operator + from the external format +
 int extract(string splitLine, string &word , bool isOperator){
@@ -32,9 +32,9 @@ int extract(string splitLine, string &word , bool isOperator){
     return i;
 }
 //A parser function to validate each line and
-//extract label, opcode and operands.
-//This function validates the line only. To validate the operands corresponding to each opcode,
-//opcode must be checked first in OPTAB then the operands according to their opcode.
+//extract label, instruction and operands.
+//This function validates the line only. To validate the operands corresponding to each instruction,
+//instruction must be checked first in OPTAB then the operands according to their instruction.
 SplitLine parseLine(string line){
     try{
         regex comment ("[\\s|\\t]*\\..*");
@@ -48,45 +48,45 @@ SplitLine parseLine(string line){
         NOTES:lineWithNoOperand_labelled deals with storage directives but you still need to validate the operators
                 according to the OPTAB "operation table".
         */
-        string  label,opCode,operand1 ,_operator, operand2;
+        string  label,instruction,operand1 ,_operator, operand2;
         if(regex_match(line,comment)){
-            return SplitLine(true ,label,opCode,operand1 , _operator , operand2);
+            return SplitLine(true ,label,instruction,operand1 , _operator , operand2);
         }
         int i=0;
         if(regex_match(line , lineWithNoOperand_labelled)){
             i =extract(line,label , false);
-            i+= extract(line.substr(i),opCode, false);
-            return SplitLine(false ,label,opCode,operand1 ,_operator, operand2);
+            i+= extract(line.substr(i),instruction, false);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
         if(regex_match(line , lineWithNoOperand_unlabelled)){
-            i =extract(line,opCode , false);
-            return SplitLine(false ,label,opCode,operand1 ,_operator, operand2);
+            i =extract(line,instruction , false);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
         if(regex_match(line,lineWithOneOperand_labelled)){
             i = extract(line , label , false);
-            i+= extract(line.substr(i),opCode, false);
+            i+= extract(line.substr(i),instruction, false);
             i+= extract(line.substr(i),operand1, false);
-            return SplitLine(false ,label,opCode,operand1 ,_operator, operand2);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
         if(regex_match(line,lineWithOneOperand_unlabelled)){
-            i = extract(line,opCode, false);
+            i = extract(line,instruction, false);
             i+= extract(line.substr(i),operand1, false);
-            return SplitLine(false ,label,opCode,operand1 ,_operator, operand2);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
         if(regex_match(line,lineWithTwoOperands_labelled)){
             i = extract(line , label, false);
-            i+= extract(line.substr(i),opCode, false);
+            i+= extract(line.substr(i),instruction, false);
             i+= extract(line.substr(i),operand1, false);
             i+= extract(line.substr(i),_operator, true);
             i+= extract(line.substr(i),operand2, false);
-            return SplitLine(false ,label,opCode,operand1 ,_operator, operand2);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
         if(regex_match(line,lineWithTwoOperands_unlabelled)){
-            i = extract(line,opCode, false);
+            i = extract(line,instruction, false);
             i+= extract(line.substr(i),operand1, false);
             i+= extract(line.substr(i),_operator, true);
             i+= extract(line.substr(i),operand2, false);
-            return SplitLine(false ,label,opCode,operand1 ,_operator, operand2);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
         cerr << "Syntax Error.." << endl;
     }catch(regex_error& e){
@@ -98,7 +98,7 @@ SplitLine parseLine(string line){
 int main()
 {
     SplitLine spl = parseLine("EOF BYTE C'EOF'\n");
-    string x = spl.label+" " + spl.opCode + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
+    string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
     cout << x << endl;
     return 0;
 }
