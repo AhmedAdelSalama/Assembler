@@ -1,7 +1,15 @@
 # depslib dependency file v1.0
-1589593765 source:e:\c++\assembler\main.cpp
+1590171541 source:e:\c++\assembler\main.cpp
 	<iostream>
-	<fstream>
 	<regex>
-	<sstream>
+	"SplitLine.h"
+
+1590171619 e:\c++\assembler\splitline.h
+	<iostream>
+	<regex>
+
+1590171507 source:e:\c++\assembler\splitline.cpp
+	<iostream>
+	<regex>
+	"SplitLine.h"
 

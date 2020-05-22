@@ -1,28 +1,9 @@
 #include <iostream>
 #include <regex>
+#include "SplitLine.h"
 
 using namespace std;
 
-// A class to get information needed from each validated line.
-// It consists of  label, opCode, operand/s and operator if exists.
-class SplitLine{
-    public:
-        string  label,
-                opCode,
-                operand1,
-                _operator,
-                operand2;
-        bool    isComment;
-        SplitLine(bool isComment, string label, string opCode, string operand1, string _operator, string operand2){
-            this->isComment = isComment;
-            this->label = label;
-            this->opCode = opCode;
-            this->operand1 = operand1;
-            this->_operator = _operator;
-            this->operand2 = operand2;
-        }
-};
-//=================================================================================================================================
 //A function to extract label, opcode , operands and operator without any additional characters "except the ones
 //indicating different addressing modes".
 //the boolean parameter to know the operator + from the external format +
