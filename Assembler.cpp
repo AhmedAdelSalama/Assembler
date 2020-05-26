@@ -7,10 +7,24 @@
 //============================================================================
 
 #include <iostream>
+#include "ObjectTable.h"
 using namespace std;
 
 int main() {
-	cout << "Hello World" << endl; // prints Hello World
+	ObjectTable opTable;
+
+	cout << opTable.doesItExist("ADD") << endl;
+	cout << opTable.doesItExist("aDd") << endl;
+	cout << opTable.doesItExist("He5o?") << endl;
+
+	cout << opTable.getOpCode("ADD") << endl;
+	cout << opTable.getOpCode("aDd") << endl;
+	cout << opTable.getOpCode("He5o?") << endl;
+
+	cout << opTable.getFormat("ADD") << endl;
+	cout << opTable.getFormat("aDd") << endl;
+	cout << opTable.getFormat("He5o?") << endl;
+
 	return 0;
 }
 
