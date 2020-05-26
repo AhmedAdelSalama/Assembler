@@ -12,30 +12,55 @@
 
 using namespace std;
 
+const int NO_RESULT = -1;
+
 string toUpper(string s);
 
-// returns 0 (false) if not found
-bool ObjectTable::doesItExist(string mnemonic) {
+// returns -1 -> !found
+// returns  1 -> found
+// return   4 -> found && Format 4
+int ObjectTable::doesItExist(string mnemonic) {
 	mnemonic = toUpper(mnemonic);
+
+	//check Format 4
+	bool isFormat4 = mnemonic.at(0) == '+';
+	if (isFormat4) {
+		//https://www.tutorialspoint.com/substring-in-cplusplus
+		mnemonic = mnemonic.substr(1, mnemonic.length());
+	}
+
 	// http://www.cplusplus.com/reference/map/map/find/
 	std::map<string, int>::iterator check;
 	check = mnemonicNames.find(mnemonic);
-	if (check != mnemonicNames.end())
-		return true;
-	return false;
+	if (check != mnemonicNames.end()) {
+		if (isFormat4)
+			return 4;
+		return 1;
+	}
+	return 0;
 }
 
-// returns -1 if not found
+bool Format4Flag = false;
+
+// returns -1 -> !found
+// otherwise: returns the correct operation code.
 int ObjectTable::getOpCode(string mnemonic) {
-	if (doesItExist(mnemonic)) {
+	int exists = doesItExist(mnemonic);
+	if (exists) {
+		if(exists == 4){
+			Format4Flag = true;
+			mnemonic = mnemonic.substr(1, mnemonic.length());
+		}
 		mnemonic = toUpper(mnemonic);
 		return mnemonicNames[mnemonic];
 	} else
-		return -1;
+		return NO_RESULT;
 }
 
-// returns -1 if not found
+// returns -1 -> !found
+// otherwise: returns the correct format.
 int ObjectTable::getFormat(string mnemonic) {
+	Format4Flag = false;
 	switch (getOpCode(mnemonic)) {
 	case FIX:
 	case FLOAT:
@@ -56,9 +81,11 @@ int ObjectTable::getFormat(string mnemonic) {
 	case SVC:
 	case TIXR:
 		return 2;
-	case -1:
-		return -1;
+	case NO_RESULT:
+		return NO_RESULT;
 	default:
+		if(Format4Flag)
+			return 4;
 		return 3;
 	}
 }

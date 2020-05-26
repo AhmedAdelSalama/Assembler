@@ -80,7 +80,7 @@ public:
 		buildTable();
 	}
 
-	bool doesItExist(string mnemonic);
+	int doesItExist(string mnemonic);
 	int getOpCode(string mnemonic);
 	int getFormat(string mnemonic);
 private:
