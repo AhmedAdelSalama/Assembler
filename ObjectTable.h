@@ -69,7 +69,6 @@ enum mnemonic {
 	SIO = 0xF0,
 	HIO = 0xF4,
 	TIO = 0xF8,
-	LAST
 };
 
 #ifndef OBJECTTABLE_H_
