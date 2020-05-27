@@ -1,5 +1,6 @@
 #include <iostream>
 #include <regex>
+#include <fstream>
 #include "SplitLine.h"
 
 using namespace std;
@@ -88,7 +89,11 @@ SplitLine parseLine(string line){
             i+= extract(line.substr(i),operand2, false);
             return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
-        cerr << "Syntax Error.." << endl;
+        //I didn't run this, may generate an error
+        fstream outfile;
+        outfile.open("report.txt",ios::app);
+        outfile << "Syntax Error.." << endl;
+        outfile.close();
     }catch(regex_error& e){
         cerr << "Error! parsing a line went wrong.." << endl;
     }

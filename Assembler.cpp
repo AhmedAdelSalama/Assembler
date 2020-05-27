@@ -41,7 +41,6 @@ int main() {
 	 * instruction and will be incremented as follows:
 	 * LOCCTR += <some instruction>.length();
 	 */
-	int LOCCTR = 0;
 
 
 	// Ahmed Salama will fill out the Symbol Table,
@@ -63,22 +62,29 @@ int main() {
 	 * pass the instruction to the Instruction Handler
 	 * repeat
 	 */
+     int LOCCTR = 0 , lineNumber=0;
      string line;
      ifstream file("srcfile.txt");
      while(getline(file,line)){
+        lineNumber++;
         transform(line.begin(), line.end(), line.begin(), ::toupper);
         line.append("\n");
-        SplitLine spl = parseLine(line);
-        string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
+        SplitLine spl = parseLine(lineNumber,line);
+       // string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
         if(!spl.isComment){
+            Instruction inst(spl.label,spl.instruction,spl.operand1,spl._operator,spl.operand2);
             if(spl.instruction.compare("START")){
                 //GENERATE HEADER RECORD
             }else if(spl.instruction.compare("END")){
                 //GENERATE END RECORD
             }else{
                 //build SYMTAB
+                //GET DISPLACEMENT
+                //GENERATE TEXT RECORD
             }
+            LOCCTR += inst.getInstructionLength();
         }
+
      }
      file.close();
 
