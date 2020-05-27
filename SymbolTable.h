@@ -7,6 +7,7 @@
 
 #include <climits>
 #include <string>
+#include <utility>
 #include "Registers.h"
 using namespace std;
 
@@ -18,7 +19,38 @@ using namespace std;
 
 class SymbolTable {
 public:
-	SymbolTable();
+	SymbolTable() {
+		preloadRegisters();
+	}
+	int insert(string symbol);
+	int search(string symbol);
+	int remove(string symbol);
+private:
+	map<string, pair<int,vector<int>>> symbolsNames;
+
+	void preloadRegisters() {
+	    vector<int> emptyVector;
+	    pair<int,vector<int>> regValue;
+	    regValue.second =emptyVector;
+	    regValue.first =A;
+        symbolsNames["A"] = regValue;
+        regValue.first =X;
+        symbolsNames["X"] = regValue;
+        regValue.first =L;
+        symbolsNames["L"] = regValue;
+        regValue.first =B;
+        symbolsNames["B"] = regValue;
+        regValue.first =S;
+        symbolsNames["S"] = regValue;
+        regValue.first =T;
+        symbolsNames["T"] = regValue;
+        regValue.first =F;
+        symbolsNames["F"] = regValue;
+        regValue.first =PC;
+        symbolsNames["PC"] = regValue;
+        regValue.first =SW;
+        symbolsNames["SW"] = regValue;
+	}
 
 	// returns INT_MIN (UNKNOWN_YET), in case of Forward Reference.
 	int findSymbolValue(string key);
@@ -28,14 +60,4 @@ public:
 	int findRegisterValue(regMnemonic reg);
 	bool changeRegisterValue(regMnemonic reg, int value);
 };
-
-class Symbol {
-public:
-	string key;
-	int value;
-	bool flag;
-
-	Symbol(string _key, int _value);
-};
-
 #endif /* SYMBOLTABLE_H_ */

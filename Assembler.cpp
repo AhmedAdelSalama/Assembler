@@ -7,10 +7,16 @@
 //============================================================================
 
 #include <iostream>
+#include <regex>
+#include <fstream>
+#include <algorithm>
+#include "SplitLine.h"
+#include "Parser.h"
 #include "Registers.h"
 #include "ObjectTable.h"
 #include "Instruction.h"
 #include "InstructionHandler.h"
+
 using namespace std;
 
 int main() {
@@ -37,6 +43,7 @@ int main() {
 	 */
 	int LOCCTR = 0;
 
+
 	// Ahmed Salama will fill out the Symbol Table,
 	// and will be responsible for:
 	// -> START (Store the program name and Initial LOCCTR)
@@ -56,6 +63,24 @@ int main() {
 	 * pass the instruction to the Instruction Handler
 	 * repeat
 	 */
+     string line;
+     ifstream file("srcfile.txt");
+     while(getline(file,line)){
+        transform(line.begin(), line.end(), line.begin(), ::toupper);
+        line.append("\n");
+        SplitLine spl = parseLine(line);
+        string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
+        if(!spl.isComment){
+            if(spl.instruction.compare("START")){
+                //GENERATE HEADER RECORD
+            }else if(spl.instruction.compare("END")){
+                //GENERATE END RECORD
+            }else{
+                //build SYMTAB
+            }
+        }
+     }
+     file.close();
 
 	//Example
 
