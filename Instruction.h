@@ -1,8 +1,8 @@
 /*
- * Instruction.h
+ * Instruction.cpp
  *
  *  Created on: May 27, 2020
- *      Author: ---
+ *      Author: Bahaa, Islam Ahmden
  */
 
 #include <string>
@@ -15,8 +15,8 @@ using namespace std;
 class Instruction {
 public:
 	string label;
-	int OPCODE;
-	int operandValue;   // e.g. for most Format 3 instructions it will be the TA,
+	string operation;
+	Expression operand;   // e.g. for most Format 3 instructions it will be the TA,
 						// So you are required to calculate the disp.
 
 	// These should be 0's and 1's (instantiated as chars "just for readability")
@@ -24,8 +24,8 @@ public:
 
 	int LOCCTR;
 
-	Instruction() = 0;
-	long getObjectCode() = 0;
+	Instruction(string _label, string _operation, Expression _operand, int _LOCCTR);
+	int getInstructionLength();
 };
 
 class StorageInstruction: Instruction {
