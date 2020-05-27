@@ -44,8 +44,8 @@ int main() {
 
 	//---------------------------------------------------------------- *
 
-	SymbolTable SymTable;
-	InstructionHandler assembler;
+	//SymbolTable SymTable;
+	//InstructionHandler assembler;
 
 	//General Algorithm
 
@@ -66,24 +66,24 @@ int main() {
 	//string line[3] = filterLine(readLine());
 
 	//dummy variables
-	string label;		//line[0]
-	string operation;	//line[1]
-	string operands;	//line[2]
-	Expression exp(operands, SymTable);
+	//string label;		//line[0]
+	//string operation;	//line[1]
+	//string operands;	//line[2]
+	//Expression exp(operands, SymTable);
 
 	//real code
-	Instruction inst(label, operation, exp, LOCCTR);
-	bool isValid = assembler.handle(inst);
+	//Instruction inst(label, operation, exp, LOCCTR);
+	//bool isValid = assembler.handle(inst);
 
-	if(isValid){
+	//if(isValid){
 		//continue
-	}
-	else{
+	//}
+	//else{
 		//شوف الي يريحك عاوز تقفل البرنامج في وشه خالص معنديش مانع ، عاوز تعلم على السطور و تعرفه غلطته في الآخر مش وحش برضو
-	}
+	//}
 
 	//update LOCCTR
-	LOCCTR += inst.getInstructionLength();
+	//LOCCTR += inst.getInstructionLength();
 
 	//and loop until END is met.
 

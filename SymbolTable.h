@@ -14,7 +14,7 @@ using namespace std;
 #define SYMBOLTABLE_H_
 
 // CONSIDER: EQU only, ignore ORG
-int UNKNOWN_YET = INT_MIN;
+//int UNKNOWN_YET = INT_MIN;
 
 class SymbolTable {
 public:

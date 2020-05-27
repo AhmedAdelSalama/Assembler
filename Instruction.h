@@ -20,7 +20,7 @@ public:
 						// So you are required to calculate the disp.
 
 	// These should be 0's and 1's (instantiated as chars "just for readability")
-	bool flags[] = { 'n', 'i', 'x', 'b', 'p', 'e' };
+	//bool flags[] = { 'n', 'i', 'x', 'b', 'p', 'e' };
 
 	int LOCCTR;
 

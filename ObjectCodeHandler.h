@@ -5,6 +5,9 @@
  *      Author: Eslam Ahmed
  */
 
+ #include <string>
+ using namespace std;
+
 #ifndef OBJECTCODEHANDLER_H_
 #define OBJECTCODEHANDLER_H_
 
