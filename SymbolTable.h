@@ -8,6 +8,8 @@
 #include <climits>
 #include <string>
 #include <utility>
+#include <map>
+#include <string>
 #include "Registers.h"
 using namespace std;
 
@@ -22,42 +24,25 @@ public:
 	SymbolTable() {
 		preloadRegisters();
 	}
-	int insert(string symbol);
-	int search(string symbol);
-	int remove(string symbol);
+	void add(string symbol , int value);
+    // returns -1, in case of Forward Reference.
+	int getSymbolValue(string symbol);
+    int findRegisterValue(regMnemonic reg);
 private:
-	map<string, pair<int,vector<int>>> symbolsNames;
-
+	map<string,int> symbolsNames;
 	void preloadRegisters() {
-	    vector<int> emptyVector;
-	    pair<int,vector<int>> regValue;
-	    regValue.second =emptyVector;
-	    regValue.first =A;
-        symbolsNames["A"] = regValue;
-        regValue.first =X;
-        symbolsNames["X"] = regValue;
-        regValue.first =L;
-        symbolsNames["L"] = regValue;
-        regValue.first =B;
-        symbolsNames["B"] = regValue;
-        regValue.first =S;
-        symbolsNames["S"] = regValue;
-        regValue.first =T;
-        symbolsNames["T"] = regValue;
-        regValue.first =F;
-        symbolsNames["F"] = regValue;
-        regValue.first =PC;
-        symbolsNames["PC"] = regValue;
-        regValue.first =SW;
-        symbolsNames["SW"] = regValue;
+        symbolsNames["A"] = A;
+        symbolsNames["X"] = X;
+        symbolsNames["L"] = L;
+        symbolsNames["B"] = B;
+        symbolsNames["S"] = S;
+        symbolsNames["T"] = T;
+        symbolsNames["F"] = F;
+        symbolsNames["PC"] = PC;
+        symbolsNames["SW"] = SW;
 	}
 
-	// returns INT_MIN (UNKNOWN_YET), in case of Forward Reference.
 	int findSymbolValue(string key);
 
-	// Just give a way to access them, you are not required to assembly the
-	// Format 2 instructions, just create a place holders ...
-	int findRegisterValue(regMnemonic reg);
-	bool changeRegisterValue(regMnemonic reg, int value);
 };
 #endif /* SYMBOLTABLE_H_ */

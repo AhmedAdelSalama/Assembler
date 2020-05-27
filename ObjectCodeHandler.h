@@ -12,7 +12,7 @@
 #define OBJECTCODEHANDLER_H_
 
 //Didn't provide any further details in order to give you the freedom to chose anyway you like to achieve the result
-//Since no one else is depending on your part. (Ø¨Ù„Ø§Ø´ Ù‡Ø¨Ø¯ Ø¹Ù†ÙŠÙ ^_^)
+//Since no one else is depending on your part. (ÈáÇÔ åÈÏ Úäíİ ^_^)
 
 class ObjectCodeHandler {
 public:
