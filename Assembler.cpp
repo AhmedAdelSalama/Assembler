@@ -15,6 +15,8 @@ using namespace std;
 
 int main() {
 
+    // المفروض ال main دي مفهاش اي حاجة تلزمك ممكن تمسحها عادي
+
 	ObjectTable opTable;
 
 	cout << opTable.doesItExist("ADD") << endl;
