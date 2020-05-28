@@ -54,7 +54,7 @@ string Instruction::perform(){
             if(format ==1){
                 string ans;
                 instructionLenght=1;
-                ans=HLOCCTR.str()+" "+stream.str();
+                ans=HLOCCTR.str()+" "+stream.str()+" 1";
                 return ans;
            }else if(format ==2){
                string ans;
@@ -62,13 +62,14 @@ string Instruction::perform(){
                 instructionLenght=2;
                 bool rtn = isRegister(operand1);
                 if(!rtn)return "ERROR";
-                 ans=HLOCCTR.str()+" "+stream.str()+sym.findRegisterValue(operand1);
+                 ans=HLOCCTR.str()+" "+stream.str()+to_string(sym.getSymbolValue(operand1));
                 if(operand2=="") ans+="0";
                 else {
                     rtn = isRegister(operand2);
                     if(!rtn)return "ERROR";
-                     ans+=sym.findRegisterValue(operand2);
+                     ans+=to_string(sym.getSymbolValue(operand2));
                 }
+                ans+=" 2";
                 return ans;
            }else if(format ==3||format ==4){
                int address1,address2;
@@ -86,15 +87,15 @@ string Instruction::perform(){
                         if(address1<0)return "ERROR: illegal operand";
                         imediteNumber=true;
                     }else{
-                        address1=sym.findSymbolValue(operand1);
+                        address1=sym.getSymbolValue(operand1);
                     }
                 }else if(operand1[0]== '@'){
                     i=0;n=1;
                     operand1=operand1.substr(1, operand1.length());
-                    address1=sym.findSymbolValue(operand1);
+                    address1=sym.getSymbolValue(operand1);
                 }else{
                     n=1;i=1;
-                    address1=sym.findSymbolValue(operand1);
+                    address1=sym.getSymbolValue(operand1);
                 }
 
                 if(operand2!="" && Upper(operand2)!= "X"){
@@ -129,8 +130,13 @@ string Instruction::perform(){
                             disp=address1;p=0;b=0;
                         }else{
                             int pc = LOCCTR + 0x3 ;
-                            if(address1==-1)disp=0;
-                           else{
+                            if(address1==-1){
+                                    disp=0;
+                                    string key=operand1;
+                                    list<int> l;
+                                    l.push_back( LOCCTR+1 );
+                                    sym.forwardRef.insert( make_pair (key, l));
+                            }else{
                                 disp = address1 - pc ;
                                 if(disp> -0x800 && disp < 0x7FF){p = 1; b = 0;}
                                 else{
@@ -155,7 +161,8 @@ string Instruction::perform(){
                         std::stringstream to_hex;
                         to_hex << std::hex << dec;
                         Hdis=to_hex.str()+Hdis;
-                        ans+=Hdis;
+                        ans+=Hdis+" 3";
+
                         return ans;
 
 
@@ -164,6 +171,13 @@ string Instruction::perform(){
                     string ans=HLOCCTR.str()+" ";
                     instructionLenght=4;
 
+                    if(address1==-1){
+                            string key=operand1;
+                            list<int> l;
+                            l.push_back( LOCCTR+1 );
+                            sym.forwardRef.insert( make_pair (key, l));
+                            address1=0;
+                    }
                     binary_o_c+=to_string(b)+to_string(p)+to_string(e);
 
                         int dec = std::stoi(binary_o_c, nullptr, 2);
@@ -175,7 +189,7 @@ string Instruction::perform(){
                         while(l.size()<5){
                             l=to_string(0)+l;
                         }
-                        ans+=part1.str()+l;
+                        ans+=part1.str()+l+" 4";
 
                         return ans;
 
@@ -184,7 +198,14 @@ string Instruction::perform(){
 
    }else{
        if(operand1=="")return "Error operand is missing";
+       string ans="";
        int result;
+    /*   std::map<string, list<int>>::iterator itr;
+        itr = sym.forwardRef.find(label);
+        if (itr != sym.forwardRef.end()) {
+
+        }*/
+
        if(operand2!=""){
             result=expression();
             if(result==-4)return "Error wrong operand";
@@ -193,7 +214,7 @@ string Instruction::perform(){
         if(isNumber(operand1)){
             result=stoi(operand1);
         }else{
-             result=sym.findSymbolValue(operand1);
+             result=sym.getSymbolValue(operand1);
 
         }
        }
@@ -202,18 +223,20 @@ string Instruction::perform(){
             if(result==-1)return "Error operand isnot exist";
             if(result<0)return "Error operand is wrong";
             instructionLenght=3*result;
+            return ans;
        }else if(operation=="RESB"){
            // * 1 >> hex
            if(result==-1)return "Error operand isnot exist";
             if(result<0)return "Error operand is wrong";
             instructionLenght=result;
+            return ans;
        }else if(operation=="WORD"){
             // + 3
             // label , rkm
             if(operand2==""){
-                if(isNumber(operand1)||sym.findSymbolValue(operand1)!=-1){
+                if(isNumber(operand1)||sym.getSymbolValue(operand1)!=-1){
                     instructionLenght=3;
-                    return "";
+                    return ans;
                 }else return "Error operand is wrong";
             }else return "Error operand is wrong";
        }else if(operation=="BYTE"){
@@ -222,11 +245,13 @@ string Instruction::perform(){
             if(operand1[0]=='X'&&operand1[1]=='\''&&operand1[operand1.length()-1]=='\''){
 
                 instructionLenght=1;
+                return ans;
             }else if(operand1[0]=='C'&&operand1[1]=='\''&&operand1[operand1.length()-1]=='\''){
                 operand1=operand1.substr(2,operand1.length()-1);
                 instructionLenght=operand1.length();
-            }
-       }else{return "ERROR";}
+                return ans;
+            }else return "Error wrong operand";
+       }else{return "ERROR Not Valid Operation";}
 
    }
 
@@ -255,16 +280,16 @@ int Instruction::expression(){
                 address1=stoi(operand1);address2=stoi(operand2);
         }else if(isNumber(operand1)||isNumber(operand2)){
             if(isNumber(operand1)){
-                 address1=stoi(operand1);address2=sym.findSymbolValue(operand2);
+                 address1=stoi(operand1);address2=sym.getSymbolValue(operand2);
                  if(address2==-1)return -4;
             }else{
-                address1=sym.findSymbolValue(operand1);address2=stoi(operand2);
+                address1=sym.getSymbolValue(operand1);address2=stoi(operand2);
                 if(address1==-1)return -4;
             }
         }
         else{
-            address1=sym.findSymbolValue(operand1);
-            address2=sym.findSymbolValue(operand2);
+            address1=sym.getSymbolValue(operand1);
+            address2=sym.getSymbolValue(operand2);
             if(address1==-1||address2==-1)return -4;
         }
 
