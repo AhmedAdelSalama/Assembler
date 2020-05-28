@@ -10,6 +10,7 @@
 #include <utility>
 #include <map>
 #include <string>
+#include <list>
 #include "Registers.h"
 using namespace std;
 
@@ -21,6 +22,7 @@ using namespace std;
 
 class SymbolTable {
 public:
+    map<string, list<int>> forwardRef;
 	SymbolTable() {
 		preloadRegisters();
 	}

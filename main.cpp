@@ -59,11 +59,11 @@ int main() {
         transform(line.begin(), line.end(), line.begin(), ::toupper);
         line.append("\n");
         SplitLine spl = parseLine(lineNumber,line);
-        string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
-        cout << x <<endl;
+        //string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
+        //cout << x <<endl;
        // cout <<lineNumber<<": label: " <<spl.label<<" operation: " <<spl.instruction<<" operand1: " <<spl.operand1<<" operator: " <<spl._operator<<" operand2: " <<spl.operand2 <<endl;
         if(!spl.isComment){
-           // Instruction inst(spl.label,spl.instruction,spl.operand1,spl._operator,spl.operand2);
+            Instruction inst(spl.label,spl.instruction,spl.operand1,spl._operator,spl.operand2,LOCCTR,symTable);
             if(spl.instruction == "START"){
                 if(spl.operand1.length()>0){
                     LOCCTR = stoi(spl.operand1,0,16);
@@ -87,11 +87,20 @@ int main() {
                 if(spl.label.length()>0){
                     symTable.add(spl.label,LOCCTR);
                 }
-                //pass arguments to Bhaa and islam
-                //GENERATE TEXT RECORD
+                string result =inst.perform();
+                int length = result.length();
+                if(result[0]=='E'){
+                    //ERROR
+                }
+                else if(result == ""){
+                    //storage directive
+                }
+                /*else if(result[length-1]=='0'&&result[length-2]=='0'&&result[length-3]=='0'&&result[length-4]=='0'){
+                    //forward reference
+                }*/
+                else{
 
-                //Ahmed Salama is waiting for Bahaa and islam instruction implementation
-                // LOCCTR += inst.getInstructionLength();
+                }
             }
 
         }
