@@ -74,9 +74,13 @@ int main() {
                 //eslam
                 //GENERATE HEADER RECORD
             }
-            else if(spl.instruction.compare("END")==0){
+            else if(spl.instruction == "END"){
                 //eslam
                 //GENERATE END RECORD
+            }
+            else if(spl.instruction == "EQU"){
+                    //if there is an expression??!still not handled
+                symTable.updateValue(spl.label,stoi(spl.operand1));
             }
             else{
                 //build SYMTAB

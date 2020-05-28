@@ -15,6 +15,14 @@ void SymbolTable::add(string symbol , int value){
     if (itr == symbolsNames.end()) {
 		symbolsNames[symbol] = value;
 	}
+	else{
+        throw "ERROR! Same label is defined twice!";
+	}
+}
+//update value to a given symol
+//if symbol does not exist --> add it to SYMTAB
+void SymbolTable::updateValue(string symbol , int value){
+    symbolsNames[symbol] = value;
 }
 //returns -1 if symbol is not found
 //returns the value otherwise "forward reference"

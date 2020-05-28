@@ -25,6 +25,7 @@ public:
 		preloadRegisters();
 	}
 	void add(string symbol , int value);
+	void updateValue(string symbol , int value);
     // returns -1, in case of Forward Reference.
 	int getSymbolValue(string symbol);
     int findRegisterValue(regMnemonic reg);
