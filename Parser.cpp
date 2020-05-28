@@ -14,6 +14,13 @@ int extract(string splitLine, string &word , bool isOperator){
         //if statement made for the _operator which takes only one character of : + - * / ,
         // to ensure that it's nothing to do with different addressing modes
         if(splitLine[i]==','||splitLine[i]=='-'||splitLine[i]=='+'||splitLine[i]=='*'||splitLine[i]=='/'){
+            //current pc value
+            if(!isOperator&&word.length()==0&&splitLine[i]=='*'){
+                word+=splitLine[i];
+                i++;
+                break;
+            }
+            //end of operand
             if(!isOperator&&word.length()>0){
                 break;
             }
@@ -28,6 +35,7 @@ int extract(string splitLine, string &word , bool isOperator){
                 break;
             }
         }
+        //if the operand between ()
         else if(splitLine[i]=='('){
             if(word.size()!=0){
                     break;
@@ -61,10 +69,10 @@ SplitLine parseLine(int lineNumber, string line){
         regex comment ("[\\s|\\t]*\\..*\n");
         regex lineWithNoOperand_labelled ("[\\s|\\t]*[\\w]+[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]*");
         regex lineWithNoOperand_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]*");
-        regex lineWithOneOperand_labelled ("[\\s|\\t]*[\\w]+[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]+?[\\s|\\t]*");
-        regex lineWithOneOperand_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]*[\\s|\\t]*");
-        regex lineWithTwoOperands_labelled ("[\\s|\\t]*[\\w]+[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]+[\\s|\\t]*[,-/*+]+[\\s|\\t]*[@|#]?[\\w]+[\\s|\\t]*");
-        regex lineWithTwoOperands_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]+[\\s|\\t]*[,-/*+]+[\\s|\\t]*[@|#]?[\\w]+[\\s|\\t]*");
+        regex lineWithOneOperand_labelled ("[\\s|\\t]*[\\w]+[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\*\\w]+?[\\s|\\t]*");
+        regex lineWithOneOperand_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\*\\w]*[\\s|\\t]*");
+        regex lineWithTwoOperands_labelled ("[\\s|\\t]*[\\w]+[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\*\\w]+[\\s|\\t]*[,-/*+]+[\\s|\\t]*[@|#]?[\\*\\w]+[\\s|\\t]*");
+        regex lineWithTwoOperands_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\*\\w]+[\\s|\\t]*[,-/*+]+[\\s|\\t]*[@|#]?[\\*\\w]+[\\s|\\t]*");
         //regex for BYTE - WORD
         regex storageDirectiveBYTE ("[\\s|\\t]*[\\w]*[\\s|\\t]+BYTE[\\s|\\t]+[X|C]'[\\w]+'[\\s|\\t]*");
         //\\d or \\w or both?
