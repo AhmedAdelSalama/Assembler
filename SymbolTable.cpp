@@ -7,6 +7,7 @@
 
 #include "SymbolTable.h"
 #include <string>
+#include <iostream>
 using namespace std;
 
 void SymbolTable::add(string symbol , int value){
@@ -16,6 +17,7 @@ void SymbolTable::add(string symbol , int value){
 		symbolsNames[symbol] = value;
 	}
 	else{
+        cerr << "ERROR! Same label is defined twice!"<<endl;
         throw "ERROR! Same label is defined twice!";
 	}
 }

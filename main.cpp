@@ -59,14 +59,14 @@ int main() {
         transform(line.begin(), line.end(), line.begin(), ::toupper);
         line.append("\n");
         SplitLine spl = parseLine(lineNumber,line);
-        //string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
-        //cout << x <<endl;
+        string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
+        cout << x <<endl;
        // cout <<lineNumber<<": label: " <<spl.label<<" operation: " <<spl.instruction<<" operand1: " <<spl.operand1<<" operator: " <<spl._operator<<" operand2: " <<spl.operand2 <<endl;
         if(!spl.isComment){
            // Instruction inst(spl.label,spl.instruction,spl.operand1,spl._operator,spl.operand2);
             if(spl.instruction == "START"){
                 if(spl.operand1.length()>0){
-                    LOCCTR = stoi(spl.operand1);
+                    LOCCTR = stoi(spl.operand1,0,16);
                 }
                 if(spl.label.length()>0){
                     symTable.add(spl.label,LOCCTR);

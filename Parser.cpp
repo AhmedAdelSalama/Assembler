@@ -18,16 +18,34 @@ int extract(string splitLine, string &word , bool isOperator){
                 break;
             }
             word+=splitLine[i];
-            i++;
             if(isOperator){
+                i++;
                 break;
             }
         }
-        if(splitLine[i]==' '||splitLine[i]=='\t'){
+        else if(splitLine[i]==' '||splitLine[i]=='\t'){
             if(word.size()!=0){
                 break;
             }
-        }else{
+        }
+        else if(splitLine[i]=='('){
+            if(word.size()!=0){
+                    break;
+            }
+            else{
+                i++;
+                while(splitLine[i]!=')'){
+                    if(splitLine[i]=='\n'){
+                        throw "ERORR! \")\" is missing!";
+                    }
+                    word+=splitLine[i];
+                    i++;
+                }
+                i++;
+                break;
+            }
+        }
+        else{
             word+=splitLine[i];
         }
         i++;
@@ -41,16 +59,17 @@ int extract(string splitLine, string &word , bool isOperator){
 SplitLine parseLine(int lineNumber, string line){
     try{
         regex comment ("[\\s|\\t]*\\..*\n");
-        regex lineWithNoOperand_labelled ("[\\s|\\t]*[\\w]{1,6}[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]*");
+        regex lineWithNoOperand_labelled ("[\\s|\\t]*[\\w]+[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]*");
         regex lineWithNoOperand_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]*");
-        regex lineWithOneOperand_labelled ("[\\s|\\t]*[\\w]{1,6}[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]{1,6}?[\\s|\\t]*");
-        regex lineWithOneOperand_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]{1,6}[\\s|\\t]*");
-        regex lineWithTwoOperands_labelled ("[\\s|\\t]*[\\w]{1,6}[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]{1,6}[\\s|\\t]*[,-/*+]+[\\s|\\t]*[@|#]?[\\w]{1,6}[\\s|\\t]*");
-        regex lineWithTwoOperands_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]{1,6}[\\s|\\t]*[,-/*+]+[\\s|\\t]*[@|#]?[\\w]{1,6}[\\s|\\t]*");
+        regex lineWithOneOperand_labelled ("[\\s|\\t]*[\\w]+[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]+?[\\s|\\t]*");
+        regex lineWithOneOperand_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]*[\\s|\\t]*");
+        regex lineWithTwoOperands_labelled ("[\\s|\\t]*[\\w]+[\\s|\\t]+[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]+[\\s|\\t]*[,-/*+]+[\\s|\\t]*[@|#]?[\\w]+[\\s|\\t]*");
+        regex lineWithTwoOperands_unlabelled ("[\\s|\\t]*[+]?[a-zA-z]{1,6}[\\s|\\t]+[@|#]?[\\w]+[\\s|\\t]*[,-/*+]+[\\s|\\t]*[@|#]?[\\w]+[\\s|\\t]*");
         //regex for BYTE - WORD
-        regex storageDirectiveBYTE ("[\\s|\\t]*[\\w]{1,6}[\\s|\\t]+BYTE[\\s|\\t]+[X|C]'[\\w]+'[\\s|\\t]*");
-        //\\d or \\w
-        regex storageDirectiveWORD ("[\\s|\\t]*[\\w]{1,6}[\\s|\\t]+WORD[\\s|\\t]+[\\d]+[\\s|\\t]*");
+        regex storageDirectiveBYTE ("[\\s|\\t]*[\\w]*[\\s|\\t]+BYTE[\\s|\\t]+[X|C]'[\\w]+'[\\s|\\t]*");
+        //\\d or \\w or both?
+        regex storageDirectiveWORD ("[\\s|\\t]*[\\w]*[\\s|\\t]+WORD[\\s|\\t]+[\\d]+[\\s|\\t]*");
+        regex storageDirectiveRES ("[\\s|\\t]*[\\w]*[\\s|\\t]+RES[W|B]{1}[\\s|\\t]+[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*[-/*+]*[\\s|\\t]*[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*");
         /*
         NOTES:lineWithNoOperand_labelled deals with storage directives but you still need to validate the operators
                 according to the OPTAB "operation table".
@@ -101,6 +120,14 @@ SplitLine parseLine(int lineNumber, string line){
             return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
         if(regex_match(line,lineWithTwoOperands_labelled)){
+            i = extract(line , label, false);
+            i+= extract(line.substr(i),instruction, false);
+            i+= extract(line.substr(i),operand1, false);
+            i+= extract(line.substr(i),_operator, true);
+            i+= extract(line.substr(i),operand2, false);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
+        }
+        if(regex_match(line,storageDirectiveRES)){
             i = extract(line , label, false);
             i+= extract(line.substr(i),instruction, false);
             i+= extract(line.substr(i),operand1, false);
