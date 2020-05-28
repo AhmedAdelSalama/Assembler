@@ -10,7 +10,7 @@ using namespace std;
 int extract(string splitLine, string &word , bool isOperator){
     int i =0;
     stringstream str;
-    while(splitLine[i]!='\n'){
+    while(splitLine[i]!='\n'&&splitLine[i]!='.'){
         //if statement made for the _operator which takes only one character of : + - * / ,
         // to ensure that it's nothing to do with different addressing modes
         if(splitLine[i]==','||splitLine[i]=='-'||splitLine[i]=='+'||splitLine[i]=='*'||splitLine[i]=='/'){
@@ -35,7 +35,7 @@ int extract(string splitLine, string &word , bool isOperator){
             else{
                 i++;
                 while(splitLine[i]!=')'){
-                    if(splitLine[i]=='\n'){
+                    if(splitLine[i]=='\n'||splitLine[i]=='\.'){
                         throw "ERORR! \")\" is missing!";
                     }
                     word+=splitLine[i];
