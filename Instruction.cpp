@@ -12,6 +12,9 @@
 #include <iostream>
 #include <iomanip>
 #include<sstream>
+#include<vector>
+#include <bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 // Have Fun ... ^_^
 
@@ -31,9 +34,12 @@ string Upper(string s);
 bool isRegister (string r);
 string convertDecimalToBinary(int n,int bits);
 bool isNumber(const std::string &s);
-
-
-
+// evaluation
+int evaluateExp(string p1,string op,string p2,int flag);
+void checkAndConvert(string p1,vector<char>oper,vector<int>num);
+int evl(vector<char> oper,vector<int> num);
+int switches(char op,int p1,int p2);
+//
 int Instruction::getInstructionLength(){
 return instructionLenght;
 }
@@ -275,7 +281,24 @@ bool isRegister (string r){
 
 int Instruction::expression(){
         int address1;int address2;
+        string ops="+-*/";
+        for(int i=0;i<4;i++){
+            for(int j=0;j<4;j++){
+                if(operand1.find(ops[i])!= std::string::npos && operand2.find(ops[j])!= std::string::npos){
+                    int add=evaluateExp(operand1,operator1,operand2,2);
+                }
+            }
+            }
+             for(int i=0;i<4;i++){
+                if(operand1.find(ops[i])!= std::string::npos ){
+                    int add=evaluateExp(operand1,operator1,operand2,0);
+                }else if( operand2.find(ops[i])!= std::string::npos ){
+                   int add= evaluateExp(operand1,operator1,operand2,1);
+                }else{
+                    break;
+                }
 
+        }
         if(isNumber(operand1)&&isNumber(operand2)){
                 address1=stoi(operand1);address2=stoi(operand2);
         }else if(isNumber(operand1)||isNumber(operand2)){
@@ -319,7 +342,82 @@ string convertDecimalToBinary(int n,int bits)
     }
     return binaryNumber;
 }
+int Instruction::evaluateExp(string p1,string op,string p2,int flag){
+    int sum=0;
+    if(flag==0){
+        vector<int>num;
+        vector<char>oper;
+        if(p1[0]=='-') return -1;
+        checkAndConvert(p1,oper,num);
+        int sum=evl(oper,num);
+        int address=sym.getSymbolValue(p2);
+        int disp = switches(op[0],sum,address);
+        return disp;
 
+    }else if(flag==1){
+        vector<int>num2;
+        vector<char>oper2;
+        if(p2[0]=='-') return -1;
+        checkAndConvert(p2,oper2,num2);
+        int sum=evl(oper2,num2);
+        int address=sym.getSymbolValue(p1);
+        int disp = switches(op[0],address,sum);
+        return disp;
+
+    }else{
+        vector<int>num1;
+        vector<char>oper1;
+        vector<int>num2;
+        vector<char>oper2;
+       if(p1[0]=='-') return -1;
+       if(p2[0]=='-') return -1;
+        checkAndConvert(p1,oper1,num1);
+        int sum1=evl(oper1,num1);
+        checkAndConvert(p2,oper2,num2);
+        int sum2=evl(oper2,num2);
+        int disp = switches(op[0],sum1,sum2);
+        return disp;
+    }
+
+}
+int switches(char op,int p1,int p2){
+    int r;
+            switch(op){
+                case '+': r = p1 + p2; break;
+                case '-': r = p1 - p2; break;
+                case '*': r = p1 * p2; break;
+                case '/': r = p1 / p2; break;
+            }
+            return r;
+}
+int evl(vector<char> oper,vector<int> num){
+    int sum=0;
+    for(int i=0;i<oper.size();i++){
+            if(i==0){
+                sum+=switches(oper[i],num[i],num[i+1]);
+            }else
+       sum=switches(oper[i],sum,num[i+1]);
+    }
+    return sum;
+   // cout<<sum;
+}
+void checkAndConvert(string p1,vector<char>oper,vector<int>num){
+        for(int i=0;i<p1.length();i++){
+            if(p1[i]=='+' || p1[i]=='-'||p1[i]=='*'||p1[i]=='/'){
+                oper.push_back(p1[i]);
+            }
+        }
+        int n = p1.length();
+        char char_array[n + 1];
+        strcpy(char_array, p1.c_str());
+        char *token = strtok(char_array, "[+-*/]");
+        while (token != NULL)
+        {
+            int y = atoi(token);
+            num.push_back(y);
+            token = strtok(NULL, "[+-*/]");
+        }
+}
 //to check if a string is a number
 bool isNumber(const std::string &s) {
   return !s.empty() && std::all_of(s.begin(), s.end(), ::isdigit);
