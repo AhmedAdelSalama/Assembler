@@ -12,6 +12,6 @@ int extract(string splitLine, string &word , bool isOperator);
 //This function validates the line only. To validate the operands corresponding to each instruction,
 //instruction must be checked first in OPTAB then the operands according to their instruction.
 
-SplitLine parseLine(int lineNumber, string line);
+SplitLine parseLine(int lineNumber, string line );
 
 #endif // PARSER_H_INCLUDED

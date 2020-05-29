@@ -143,8 +143,7 @@ SplitLine parseLine(int lineNumber, string line){
             i+= extract(line.substr(i),operand2, false);
             return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
-        //I didn't run this, may generate an error
-        fstream outfile;
+        ofstream outfile;
         outfile.open("report.txt",ios::app);
         outfile <<"line "<<lineNumber<<":" << "Syntax Error!" << endl;
         outfile.close();

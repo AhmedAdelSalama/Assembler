@@ -54,11 +54,13 @@ int main() {
      SymbolTable symTable;
      string line;
      ifstream file("srcfile.txt");
+     ofstream outfile;
+     outfile.open("report.txt",ios::app);
      while(getline(file,line)){
         lineNumber++;
         transform(line.begin(), line.end(), line.begin(), ::toupper);
         line.append("\n");
-        SplitLine spl = parseLine(lineNumber,line);
+        SplitLine spl = parseLine(lineNumber , line);
         //string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
         //cout << x <<endl;
        // cout <<lineNumber<<": label: " <<spl.label<<" operation: " <<spl.instruction<<" operand1: " <<spl.operand1<<" operator: " <<spl._operator<<" operand2: " <<spl.operand2 <<endl;
@@ -91,6 +93,7 @@ int main() {
                 int length = result.length();
                 if(result[0]=='E'){
                     //ERROR
+                    outfile <<"line "<<lineNumber<<":" << "Error!undefined operation!" << endl;
                 }
                 else if(result == ""){
                     //storage directive
@@ -101,13 +104,14 @@ int main() {
                 else{
 
                 }
+                LOCCTR += inst.getInstructionLength();
             }
 
         }
 
      }
      file.close();
-
+     outfile.close();
 	//Example
 
 	//If you found a label, do your magic and insert it into the Symtable
