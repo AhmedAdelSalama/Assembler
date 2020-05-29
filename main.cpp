@@ -17,6 +17,7 @@
 #include "ObjectTable.h"
 #include "Instruction.h"
 #include "InstructionHandler.h"
+#include "ObjectCodeHandler.h"
 
 using namespace std;
 
@@ -103,7 +104,7 @@ int main() {
                     //forward reference
                 }*/
                 else{
-
+                    ObjectCodeHandler objectCodeHandler(result, spl.operand1, spl.label);
                 }
                 LOCCTR += inst.getInstructionLength();
             }

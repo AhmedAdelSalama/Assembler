@@ -5,7 +5,9 @@
  *      Author: Eslam Ahmed
  */
 
- #include <string>
+#include <string>
+#include <fstream>
+#include <map>
  using namespace std;
 
 #ifndef OBJECTCODEHANDLER_H_
@@ -16,8 +18,14 @@
 
 class ObjectCodeHandler {
 public:
-	ObjectCodeHandler();
-	void record(string instruction);
+    string instruct;
+    string operand;
+    string label;
+	ObjectCodeHandler(string _instruction,string _operand,string _label);
+
+	void record();
+
+
 };
 
 #endif /* OBJECTCODEHANDLER_H_ */
