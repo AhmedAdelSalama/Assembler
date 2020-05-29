@@ -1,0 +1,82 @@
+# depslib dependency file v1.0
+1590622510 source:c:\users\lenovo\downloads\assembler\expression.cpp
+	"Expression.h"
+
+1590622510 c:\users\lenovo\downloads\assembler\expression.h
+	"SymbolTable.h"
+	<string>
+
+1590622510 c:\users\lenovo\downloads\assembler\symboltable.h
+	<climits>
+	<string>
+	<utility>
+	<map>
+	<string>
+	"Registers.h"
+
+1590622510 c:\users\lenovo\downloads\assembler\registers.h
+
+1590622510 source:c:\users\lenovo\downloads\assembler\instruction.cpp
+	"Instruction.h"
+
+1590702601 c:\users\lenovo\downloads\assembler\instruction.h
+	<string>
+	"Expression.h"
+	"SymbolTable.h"
+
+1590622510 source:c:\users\lenovo\downloads\assembler\instructionhandler.cpp
+	"InstructionHandler.h"
+
+1590728261 c:\users\lenovo\downloads\assembler\instructionhandler.h
+	"Instruction.h"
+	"ObjectCodeHandler.h"
+
+1590728601 c:\users\lenovo\downloads\assembler\objectcodehandler.h
+	<string>
+	<fstream>
+	<map>
+
+1590627984 source:c:\users\lenovo\downloads\assembler\objectcodehandler.cpp
+	<fstream>
+	"ObjectCodeHandler.h"
+
+1590622510 source:c:\users\lenovo\downloads\assembler\objecttable.cpp
+	"ObjectTable.h"
+	<string>
+	<algorithm>
+	<iostream>
+
+1590622510 c:\users\lenovo\downloads\assembler\objecttable.h
+	<map>
+	<string>
+
+1590622510 source:c:\users\lenovo\downloads\assembler\symboltable.cpp
+	"SymbolTable.h"
+	<string>
+
+1590711403 source:c:\users\lenovo\downloads\assembler\assembler.cpp
+	<iostream>
+	"Registers.h"
+	"ObjectTable.h"
+	"Instruction.h"
+	"InstructionHandler.h"
+
+1590622510 c:\users\lenovo\downloads\assembler\splitline.h
+	<iostream>
+	<regex>
+
+1590622510 c:\users\lenovo\downloads\assembler\parser.h
+	<iostream>
+	<regex>
+
+1590622510 source:c:\users\lenovo\downloads\assembler\parser.cpp
+	<iostream>
+	<regex>
+	<fstream>
+	"SplitLine.h"
+
+1590622510 source:c:\users\lenovo\downloads\assembler\splitline.cpp
+	<iostream>
+	<regex>
+	"SplitLine.h"
+
