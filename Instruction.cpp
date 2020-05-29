@@ -36,7 +36,7 @@ string convertDecimalToBinary(int n,int bits);
 bool isNumber(const std::string &s);
 // evaluation
 int evaluateExp(string p1,string op,string p2,int flag);
-void checkAndConvert(string p1,vector<char>oper,vector<int>num);
+void checkAndConvert(string p1,vector<char> &oper,vector<int> &num);
 int evl(vector<char> oper,vector<int> num);
 int switches(char op,int p1,int p2);
 //
@@ -286,19 +286,24 @@ int Instruction::expression(){
             for(int j=0;j<4;j++){
                 if(operand1.find(ops[i])!= std::string::npos && operand2.find(ops[j])!= std::string::npos){
                     int add=evaluateExp(operand1,operator1,operand2,2);
+                    if(add==-1)return -3;
+                    else return add;
                 }
             }
             }
              for(int i=0;i<4;i++){
                 if(operand1.find(ops[i])!= std::string::npos ){
                     int add=evaluateExp(operand1,operator1,operand2,0);
+                    if(add==-1)return -3;
+                    else return add;
                 }else if( operand2.find(ops[i])!= std::string::npos ){
                    int add= evaluateExp(operand1,operator1,operand2,1);
-                }else{
-                    break;
-                }
+                   if(add==-1)return -3;
+                    else return add;
 
+                }
         }
+
         if(isNumber(operand1)&&isNumber(operand2)){
                 address1=stoi(operand1);address2=stoi(operand2);
         }else if(isNumber(operand1)||isNumber(operand2)){
@@ -309,6 +314,7 @@ int Instruction::expression(){
                 address1=sym.getSymbolValue(operand1);address2=stoi(operand2);
                 if(address1==-1)return -4;
             }
+
         }
         else{
             address1=sym.getSymbolValue(operand1);
@@ -343,7 +349,6 @@ string convertDecimalToBinary(int n,int bits)
     return binaryNumber;
 }
 int Instruction::evaluateExp(string p1,string op,string p2,int flag){
-    int sum=0;
     if(flag==0){
         vector<int>num;
         vector<char>oper;
@@ -401,7 +406,7 @@ int evl(vector<char> oper,vector<int> num){
     return sum;
    // cout<<sum;
 }
-void checkAndConvert(string p1,vector<char>oper,vector<int>num){
+void checkAndConvert(string p1,vector<char> &oper,vector<int> &num){
         for(int i=0;i<p1.length();i++){
             if(p1[i]=='+' || p1[i]=='-'||p1[i]=='*'||p1[i]=='/'){
                 oper.push_back(p1[i]);

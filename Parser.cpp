@@ -78,6 +78,8 @@ SplitLine parseLine(int lineNumber, string line){
         //\\d or \\w or both?
         regex storageDirectiveWORD ("[\\s|\\t]*[\\w]*[\\s|\\t]+WORD[\\s|\\t]+[\\d]+[\\s|\\t]*");
         regex storageDirectiveRES ("[\\s|\\t]*[\\w]*[\\s|\\t]+RES[W|B]{1}[\\s|\\t]+[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*[-/*+]*[\\s|\\t]*[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*");
+        regex lineWithEQU2operands_labelled ("[\\s|\\t]*[\\w]*[\\s|\\t]+EQU[\\s|\\t]+[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*[-/*+]*[\\s|\\t]*[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*");
+        regex lineWithEQU2operands_unlabelled ("[\\s|\\t]*EQU[\\s|\\t]+[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*[-/*+]*[\\s|\\t]*[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*");
         /*
         NOTES:lineWithNoOperand_labelled deals with storage directives but you still need to validate the operators
                 according to the OPTAB "operation table".
@@ -121,12 +123,6 @@ SplitLine parseLine(int lineNumber, string line){
             i+= extract(line.substr(i),instruction, false);
             return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
-        if(regex_match(line,lineWithOneOperand_labelled)){
-            i = extract(line , label , false);
-            i+= extract(line.substr(i),instruction, false);
-            i+= extract(line.substr(i),operand1, false);
-            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
-        }
         if(regex_match(line,lineWithTwoOperands_labelled)){
             i = extract(line , label, false);
             i+= extract(line.substr(i),instruction, false);
@@ -135,7 +131,29 @@ SplitLine parseLine(int lineNumber, string line){
             i+= extract(line.substr(i),operand2, false);
             return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
         }
+        if(regex_match(line,lineWithOneOperand_labelled)){
+            i = extract(line , label , false);
+            i+= extract(line.substr(i),instruction, false);
+            i+= extract(line.substr(i),operand1, false);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
+        }
+
         if(regex_match(line,storageDirectiveRES)){
+            i = extract(line , label, false);
+            i+= extract(line.substr(i),instruction, false);
+            i+= extract(line.substr(i),operand1, false);
+            i+= extract(line.substr(i),_operator, true);
+            i+= extract(line.substr(i),operand2, false);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
+        }
+        if(regex_match(line,lineWithEQU2operands_unlabelled)){
+            i = extract(line , instruction, false);
+            i+= extract(line.substr(i),operand1, false);
+            i+= extract(line.substr(i),_operator, true);
+            i+= extract(line.substr(i),operand2, false);
+            return SplitLine(false ,label,instruction,operand1 ,_operator, operand2);
+        }
+        if(regex_match(line,lineWithEQU2operands_labelled)){
             i = extract(line , label, false);
             i+= extract(line.substr(i),instruction, false);
             i+= extract(line.substr(i),operand1, false);

@@ -61,8 +61,8 @@ int main() {
         transform(line.begin(), line.end(), line.begin(), ::toupper);
         line.append("\n");
         SplitLine spl = parseLine(lineNumber , line);
-        //string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
-        //cout << x <<endl;
+        string x = spl.label+" " + spl.instruction + " " + spl.operand1+" " + spl._operator+" " + spl.operand2;
+        cout << x <<endl;
        // cout <<lineNumber<<": label: " <<spl.label<<" operation: " <<spl.instruction<<" operand1: " <<spl.operand1<<" operator: " <<spl._operator<<" operand2: " <<spl.operand2 <<endl;
         if(!spl.isComment){
             Instruction inst(spl.label,spl.instruction,spl.operand1,spl._operator,spl.operand2,LOCCTR,symTable);
@@ -81,8 +81,9 @@ int main() {
                 //GENERATE END RECORD
             }
             else if(spl.instruction == "EQU"){
-                    //if there is an expression??!still not handled
-                symTable.updateValue(spl.label,stoi(spl.operand1));
+                int value = inst.expression();
+                symTable.updateValue(spl.label,value);
+                cout<<value<<endl;
             }
             else{
                 //build SYMTAB
@@ -93,7 +94,7 @@ int main() {
                 int length = result.length();
                 if(result[0]=='E'){
                     //ERROR
-                    outfile <<"line "<<lineNumber<<":" << "Error!undefined operation!" << endl;
+                    outfile <<"line "<<lineNumber<<":" << result << endl;
                 }
                 else if(result == ""){
                     //storage directive
