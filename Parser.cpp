@@ -76,7 +76,7 @@ SplitLine parseLine(int lineNumber, string line){
         //regex for BYTE - WORD
         regex storageDirectiveBYTE ("[\\s|\\t]*[\\w]*[\\s|\\t]+BYTE[\\s|\\t]+[X|C]'[\\w]+'[\\s|\\t]*");
         //\\d or \\w or both?
-        regex storageDirectiveWORD ("[\\s|\\t]*[\\w]*[\\s|\\t]+WORD[\\s|\\t]+[\\d]+[\\s|\\t]*");
+        regex storageDirectiveWORD ("[\\s|\\t]*[\\w]*[\\s|\\t]+WORD[\\s|\\t]+[-]*[\\d]+[\\s|\\t]*");
         regex storageDirectiveRES ("[\\s|\\t]*[\\w]*[\\s|\\t]+RES[W|B]{1}[\\s|\\t]+[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*[-/*+]*[\\s|\\t]*[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*");
         regex lineWithEQU2operands_labelled ("[\\s|\\t]*[\\w]*[\\s|\\t]+EQU[\\s|\\t]+[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*[-/*+]*[\\s|\\t]*[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*");
         regex lineWithEQU2operands_unlabelled ("[\\s|\\t]*EQU[\\s|\\t]+[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*[-/*+]*[\\s|\\t]*[(]?[-/*+\\d\\w]*[)]?[\\s|\\t]*");

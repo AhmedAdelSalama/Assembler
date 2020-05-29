@@ -30,7 +30,7 @@ public:
 			return false;
 		// return false -> bad instruction
 
-		interpreter.record(result);	// (Eslam Ahmed)
+		interpreter.record();	// (Eslam Ahmed)
 
 		return true;
 	}

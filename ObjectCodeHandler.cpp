@@ -53,6 +53,8 @@ using namespace std;
 	void ObjectCodeHandler::record(){
 	    int firsttextaddres;
 	     string textaddres;
+        int textaddressnow=0;
+
 
 	    //if objectcode is empty
 	    if(instruct==""){
@@ -103,9 +105,9 @@ using namespace std;
                 textrecord="";
                                 }
 
-            int textaddressnow = std::stoi(address, 0, 16);
+            textaddressnow = std::stoi(address, 0, 16);
             //if coloumns >59
-        else if((textaddressnow-firsttextaddres)>59){
+        }else if((textaddressnow-firsttextaddres)>59){
                 infile="";
                 int lasttextaddress = std::stoi(address, 0, 16);
                 lasttextaddress-=firsttextaddres;
@@ -115,7 +117,7 @@ using namespace std;
                 ofstream myfile;
                 myfile.open ("objcode.txt",ios::app);
                 myfile << infile;
-                myfile.close;
+                myfile.close();
                 infile="";
                 textrecord="";
         }
@@ -142,9 +144,3 @@ using namespace std;
 
 	}
 
-
-
-
-
-
-}
