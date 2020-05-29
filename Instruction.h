@@ -34,6 +34,7 @@ public:
     Instruction(string _label, string _operation, string _operand1,string _operator1,string _operand2,int _LOCCTR,SymbolTable _sym);
 	int getInstructionLength();
 	int expression();
+	int evaluateExp(string p1,string op,string p2,int flag);
 	string perform();
 
 };
