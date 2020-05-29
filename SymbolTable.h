@@ -7,6 +7,10 @@
 
 #include <climits>
 #include <string>
+#include <utility>
+#include <map>
+#include <string>
+#include <list>
 #include "Registers.h"
 using namespace std;
 
@@ -18,24 +22,30 @@ using namespace std;
 
 class SymbolTable {
 public:
-	SymbolTable();
+    map<string, list<int>> forwardRef;
+	SymbolTable() {
+		preloadRegisters();
+	}
+	void add(string symbol , int value);
+	void updateValue(string symbol , int value);
+    // returns -1, in case of Forward Reference.
+	int getSymbolValue(string symbol);
+    int findRegisterValue(regMnemonic reg);
+private:
+	map<string,int> symbolsNames;
+	void preloadRegisters() {
+        symbolsNames["A"] = A;
+        symbolsNames["X"] = X;
+        symbolsNames["L"] = L;
+        symbolsNames["B"] = B;
+        symbolsNames["S"] = S;
+        symbolsNames["T"] = T;
+        symbolsNames["F"] = F;
+        symbolsNames["PC"] = PC;
+        symbolsNames["SW"] = SW;
+	}
 
-	// returns INT_MIN (UNKNOWN_YET), in case of Forward Reference.
 	int findSymbolValue(string key);
 
-	// Just give a way to access them, you are not required to assembly the
-	// Format 2 instructions, just create a place holders ...
-	int findRegisterValue(regMnemonic reg);
-	bool changeRegisterValue(regMnemonic reg, int value);
 };
-
-class Symbol {
-public:
-	string key;
-	int value;
-	bool flag;
-
-	Symbol(string _key, int _value);
-};
-
 #endif /* SYMBOLTABLE_H_ */
