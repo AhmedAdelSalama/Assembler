@@ -7,6 +7,7 @@
 #include "ObjectCodeHandler.h"
 #include <string>
 #include <fstream>
+#include <iostream>
 #include <map>
 using namespace std;
 
@@ -42,7 +43,7 @@ using namespace std;
            word = word + x;
        }
    }
-   format+=word;
+   format=word;
    word="";
    m=0;
 }
@@ -76,6 +77,7 @@ using namespace std;
         }
         else{ //in the beginneng of text record
                 if(textrecord==""){
+                     splitstr(instruct);
                      textaddres=address;
                      firsttextaddres= std::stoi(address, 0, 16);
 

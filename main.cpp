@@ -97,14 +97,15 @@ int main() {
                     //ERROR
                     outfile <<"line "<<lineNumber<<":" << result << endl;
                 }
-                else if(result == ""){
+                /*else if(result == ""){
                     //storage directive
-                }
+                }*/
                 /*else if(result[length-1]=='0'&&result[length-2]=='0'&&result[length-3]=='0'&&result[length-4]=='0'){
                     //forward reference
                 }*/
                 else{
                     ObjectCodeHandler objectCodeHandler(result, spl.operand1, spl.label);
+                    objectCodeHandler.record();
                 }
                 LOCCTR += inst.getInstructionLength();
             }
