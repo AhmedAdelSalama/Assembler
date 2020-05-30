@@ -47,7 +47,7 @@ bool Format4Flag = false;
 int ObjectTable::getOpCode(string mnemonic) {
 	int exists = doesItExist(mnemonic);
 	if (exists) {
-		if(exists == 4){
+		if (exists == 4) {
 			Format4Flag = true;
 			mnemonic = mnemonic.substr(1, mnemonic.length());
 		}
@@ -84,7 +84,7 @@ int ObjectTable::getFormat(string mnemonic) {
 	case NO_RESULT:
 		return NO_RESULT;
 	default:
-		if(Format4Flag)
+		if (Format4Flag)
 			return 4;
 		return 3;
 	}

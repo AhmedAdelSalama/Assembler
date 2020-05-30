@@ -22,27 +22,27 @@ using namespace std;
 
 class SymbolTable {
 public:
-    map<string, list<int>> forwardRef;
+	map<string, list<int>> forwardRef;
 	SymbolTable() {
 		preloadRegisters();
 	}
-	void add(string symbol , int value);
-	void updateValue(string symbol , int value);
-    // returns -1, in case of Forward Reference.
+	void add(string symbol, int value);
+	void updateValue(string symbol, int value);
+	// returns -1, in case of Forward Reference.
 	int getSymbolValue(string symbol);
-    int findRegisterValue(regMnemonic reg);
+	int findRegisterValue(regMnemonic reg);
 private:
-	map<string,int> symbolsNames;
+	map<string, int> symbolsNames;
 	void preloadRegisters() {
-        symbolsNames["A"] = A;
-        symbolsNames["X"] = X;
-        symbolsNames["L"] = L;
-        symbolsNames["B"] = B;
-        symbolsNames["S"] = S;
-        symbolsNames["T"] = T;
-        symbolsNames["F"] = F;
-        symbolsNames["PC"] = PC;
-        symbolsNames["SW"] = SW;
+		symbolsNames["A"] = A;
+		symbolsNames["X"] = X;
+		symbolsNames["L"] = L;
+		symbolsNames["B"] = B;
+		symbolsNames["S"] = S;
+		symbolsNames["T"] = T;
+		symbolsNames["F"] = F;
+		symbolsNames["PC"] = PC;
+		symbolsNames["SW"] = SW;
 	}
 
 	int findSymbolValue(string key);

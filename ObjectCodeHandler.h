@@ -8,7 +8,7 @@
 #include <string>
 #include <fstream>
 #include <map>
- using namespace std;
+using namespace std;
 
 #ifndef OBJECTCODEHANDLER_H_
 #define OBJECTCODEHANDLER_H_
@@ -18,14 +18,14 @@
 
 class ObjectCodeHandler {
 public:
-    string instruct;
-    string operand;
-    string label;
-    string loctr;
-	ObjectCodeHandler(string _instruction,string _operand,string _label,string _loctr);
+	string instruct;
+	string operand;
+	string label;
+	string loctr;
+	ObjectCodeHandler(string _instruction, string _operand, string _label,
+			string _loctr);
 
 	void record();
-
 
 };
 
