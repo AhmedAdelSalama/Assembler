@@ -1,0 +1,204 @@
+# depslib dependency file v1.0
+1590606973 source:e:\c++\assebler_temp\expression.cpp
+	"Expression.h"
+
+1590606701 e:\c++\assebler_temp\expression.h
+	"SymbolTable.h"
+	<string>
+
+1590705511 e:\c++\assebler_temp\symboltable.h
+	<climits>
+	<string>
+	<utility>
+	<map>
+	<string>
+	<list>
+	"Registers.h"
+
+1590606896 e:\c++\assebler_temp\registers.h
+
+1590755380 source:e:\c++\assebler_temp\instruction.cpp
+	"Instruction.h"
+	"ObjectTable.h"
+	<string>
+	<algorithm>
+	<iostream>
+	<iomanip>
+	<sstream>
+	<vector>
+	<bits/stdc++.h>
+	<bits/stdc++.h>
+
+1590748974 e:\c++\assebler_temp\instruction.h
+	<string>
+	"Expression.h"
+	"SymbolTable.h"
+
+1590607029 source:e:\c++\assebler_temp\instructionhandler.cpp
+	"InstructionHandler.h"
+
+1590762723 e:\c++\assebler_temp\instructionhandler.h
+	"Instruction.h"
+	"ObjectCodeHandler.h"
+
+1590756634 e:\c++\assebler_temp\objectcodehandler.h
+	<string>
+	<fstream>
+	<map>
+
+1590762739 source:e:\c++\assebler_temp\objectcodehandler.cpp
+	"ObjectCodeHandler.h"
+	<string>
+	<fstream>
+	<map>
+
+1590607068 source:e:\c++\assebler_temp\objecttable.cpp
+	"ObjectTable.h"
+	<string>
+	<algorithm>
+	<iostream>
+
+1590606847 e:\c++\assebler_temp\objecttable.h
+	<map>
+	<string>
+
+1590762190 source:e:\c++\assebler_temp\parser.cpp
+	<iostream>
+	<regex>
+	<fstream>
+	"SplitLine.h"
+
+1590704445 e:\c++\assebler_temp\splitline.h
+	<iostream>
+	<regex>
+
+1590704445 source:e:\c++\assebler_temp\splitline.cpp
+	<iostream>
+	<regex>
+	"SplitLine.h"
+
+1590704445 source:e:\c++\assebler_temp\symboltable.cpp
+	"SymbolTable.h"
+	<string>
+	<iostream>
+
+1590762275 source:e:\c++\assebler_temp\main.cpp
+	<iostream>
+	<regex>
+	<fstream>
+	<algorithm>
+	<string>
+	"SplitLine.h"
+	"Parser.h"
+	"Registers.h"
+	"ObjectTable.h"
+	"Instruction.h"
+	"InstructionHandler.h"
+	"ObjectCodeHandler.h"
+
+1590735442 e:\c++\assebler_temp\parser.h
+	<iostream>
+	<regex>
+
+1590606973 source:c:\users\lenovo\downloads\assebler_temp\assebler_temp\expression.cpp
+	"Expression.h"
+
+1590606701 c:\users\lenovo\downloads\assebler_temp\assebler_temp\expression.h
+	"SymbolTable.h"
+	<string>
+
+1590705511 c:\users\lenovo\downloads\assebler_temp\assebler_temp\symboltable.h
+	<climits>
+	<string>
+	<utility>
+	<map>
+	<string>
+	<list>
+	"Registers.h"
+
+1590606896 c:\users\lenovo\downloads\assebler_temp\assebler_temp\registers.h
+
+1590755380 source:c:\users\lenovo\downloads\assebler_temp\assebler_temp\instruction.cpp
+	"Instruction.h"
+	"ObjectTable.h"
+	<string>
+	<algorithm>
+	<iostream>
+	<iomanip>
+	<sstream>
+	<vector>
+	<bits/stdc++.h>
+	<bits/stdc++.h>
+
+1590748974 c:\users\lenovo\downloads\assebler_temp\assebler_temp\instruction.h
+	<string>
+	"Expression.h"
+	"SymbolTable.h"
+
+1590606847 c:\users\lenovo\downloads\assebler_temp\assebler_temp\objecttable.h
+	<map>
+	<string>
+
+1590607029 source:c:\users\lenovo\downloads\assebler_temp\assebler_temp\instructionhandler.cpp
+	"InstructionHandler.h"
+
+1590762723 c:\users\lenovo\downloads\assebler_temp\assebler_temp\instructionhandler.h
+	"Instruction.h"
+	"ObjectCodeHandler.h"
+
+1590801990 c:\users\lenovo\downloads\assebler_temp\assebler_temp\objectcodehandler.h
+	<string>
+	<fstream>
+	<map>
+
+1590854187 source:c:\users\lenovo\downloads\assebler_temp\assebler_temp\main.cpp
+	<iostream>
+	<regex>
+	<fstream>
+	<algorithm>
+	<string>
+	"SplitLine.h"
+	"Parser.h"
+	"Registers.h"
+	"ObjectTable.h"
+	"Instruction.h"
+	"InstructionHandler.h"
+	"ObjectCodeHandler.h"
+
+1590704445 c:\users\lenovo\downloads\assebler_temp\assebler_temp\splitline.h
+	<iostream>
+	<regex>
+
+1590735442 c:\users\lenovo\downloads\assebler_temp\assebler_temp\parser.h
+	<iostream>
+	<regex>
+
+1590853051 source:c:\users\lenovo\downloads\assebler_temp\assebler_temp\objectcodehandler.cpp
+	"ObjectCodeHandler.h"
+	<string>
+	<fstream>
+	<map>
+	<iostream>
+
+1590607068 source:c:\users\lenovo\downloads\assebler_temp\assebler_temp\objecttable.cpp
+	"ObjectTable.h"
+	<string>
+	<algorithm>
+	<iostream>
+
+1590762190 source:c:\users\lenovo\downloads\assebler_temp\assebler_temp\parser.cpp
+	<iostream>
+	<regex>
+	<fstream>
+	"SplitLine.h"
+
+1590704445 source:c:\users\lenovo\downloads\assebler_temp\assebler_temp\splitline.cpp
+	<iostream>
+	<regex>
+	"SplitLine.h"
+
+1590704445 source:c:\users\lenovo\downloads\assebler_temp\assebler_temp\symboltable.cpp
+	"SymbolTable.h"
+	<string>
+	<iostream>
+
