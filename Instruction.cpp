@@ -34,9 +34,10 @@ string Upper(string s);
 bool isRegister (string r);
 string convertDecimalToBinary(int n,int bits);
 bool isNumber(const std::string &s);
+string stringToHex(string s);
 // evaluation
 int evaluateExp(string p1,string op,string p2,int flag);
-void checkAndConvert(string p1,vector<char> &oper,vector<int> &num);
+void checkAndConvert(string p1,vector<char>oper,vector<int>num);
 int evl(vector<char> oper,vector<int> num);
 int switches(char op,int p1,int p2);
 //
@@ -47,20 +48,25 @@ return instructionLenght;
 
 string Instruction::perform(){
     ObjectTable ops;
+        std::stringstream HLOCCTR;
+            HLOCCTR << std::hex << LOCCTR;
      if(ops.doesItExist(operation)!=0){
             int n=0,i=0,x=0,p=0,b=0,e=0;
             int m = ops.getOpCode(operation);
             int format=ops.getFormat(operation);
             std::stringstream stream;
             stream << std::hex << m;
-            std::stringstream HLOCCTR;
-            HLOCCTR << std::hex << LOCCTR;
+
 
 
             if(format ==1){
                 string ans;
+                string d=stream.str();
                 instructionLenght=1;
-                ans=HLOCCTR.str()+" "+stream.str()+" 1";
+                        while(d.size()<2){
+                            d=to_string(0)+d;
+                        }
+                ans=HLOCCTR.str()+" "+d+" 1";
                 return ans;
            }else if(format ==2){
                string ans;
@@ -68,7 +74,11 @@ string Instruction::perform(){
                 instructionLenght=2;
                 bool rtn = isRegister(operand1);
                 if(!rtn)return "ERROR";
-                 ans=HLOCCTR.str()+" "+stream.str()+to_string(sym.getSymbolValue(operand1));
+                string d=stream.str();
+                        while(d.size()<2){
+                            d=to_string(0)+d;
+                        }
+                 ans=HLOCCTR.str()+" "+d+to_string(sym.getSymbolValue(operand1));
                 if(operand2=="") ans+="0";
                 else {
                     rtn = isRegister(operand2);
@@ -134,6 +144,8 @@ string Instruction::perform(){
                             int disp;
                         if(imediteNumber){
                             disp=address1;p=0;b=0;
+                        }else if(Upper(operation)=="RSUB"){
+                            disp=0;p=0;b=0;
                         }else{
                             int pc = LOCCTR + 0x3 ;
                             if(address1==-1){
@@ -166,7 +178,12 @@ string Instruction::perform(){
                         int dec = std::stoi(binary_o_c, nullptr, 2);
                         std::stringstream to_hex;
                         to_hex << std::hex << dec;
-                        Hdis=to_hex.str()+Hdis;
+
+                         string Hobject=to_hex.str();
+                            while(Hobject.size() < 3){
+                                 Hobject=to_string(0)+Hobject;
+                            }
+                        Hdis=Hobject+Hdis;
                         ans+=Hdis+" 3";
 
                         return ans;
@@ -176,8 +193,10 @@ string Instruction::perform(){
                     e=1;p=0;b=0;
                     string ans=HLOCCTR.str()+" ";
                     instructionLenght=4;
-
-                    if(address1==-1){
+                    if(Upper(operation)=="RSUB"){
+                            address1=0;p=0;b=0;
+                        }
+                   else if(address1==-1){
                             string key=operand1;
                             list<int> l;
                             l.push_back( LOCCTR+1 );
@@ -189,13 +208,17 @@ string Instruction::perform(){
                         int dec = std::stoi(binary_o_c, nullptr, 2);
                         std::stringstream part1;
                         part1 << std::hex << dec;
+                         string Hobject=part1.str();
+                            while(Hobject.size() < 3){
+                                 Hobject=to_string(0)+Hobject;
+                            }
                         std::stringstream part2;
                         part2 << std::hex << address1;
                         string l=part2.str();
                         while(l.size()<5){
                             l=to_string(0)+l;
                         }
-                        ans+=part1.str()+l+" 4";
+                        ans+=Hobject+l+" 4";
 
                         return ans;
 
@@ -221,7 +244,7 @@ string Instruction::perform(){
             result=stoi(operand1);
         }else{
              result=sym.getSymbolValue(operand1);
-
+                if(result==-1)return"Error ";
         }
        }
        if(operation=="RESW"){
@@ -239,22 +262,28 @@ string Instruction::perform(){
        }else if(operation=="WORD"){
             // + 3
             // label , rkm
-            if(operand2==""){
-                if(isNumber(operand1)||sym.getSymbolValue(operand1)!=-1){
-                    instructionLenght=3;
+              instructionLenght=3;
+                    string num=to_string(result);
+                        while(num.size() < 6){
+                             num=to_string(0)+num;
+                        }
+                    ans+=HLOCCTR.str()+" "+num+" 0";
                     return ans;
-                }else return "Error operand is wrong";
-            }else return "Error operand is wrong";
+
        }else if(operation=="BYTE"){
            // + charcter length
            if(operand2!="")return "Error operand is wrong";
             if(operand1[0]=='X'&&operand1[1]=='\''&&operand1[operand1.length()-1]=='\''){
+                string device=operand1.substr(2,operand1.length()-1);;
 
                 instructionLenght=1;
+                ans+=HLOCCTR.str()+" "+device+" 0";
                 return ans;
             }else if(operand1[0]=='C'&&operand1[1]=='\''&&operand1[operand1.length()-1]=='\''){
-                operand1=operand1.substr(2,operand1.length()-1);
-                instructionLenght=operand1.length();
+                string s=operand1.substr(2,operand1.length()-1);
+                string a=stringToHex(s);
+                instructionLenght=s.length();
+                ans+=HLOCCTR.str()+" "+a+" 0";
                 return ans;
             }else return "Error wrong operand";
        }else{return "ERROR Not Valid Operation";}
@@ -282,28 +311,25 @@ bool isRegister (string r){
 int Instruction::expression(){
         int address1;int address2;
         string ops="+-*/";
+        //from herer
         for(int i=0;i<4;i++){
             for(int j=0;j<4;j++){
                 if(operand1.find(ops[i])!= std::string::npos && operand2.find(ops[j])!= std::string::npos){
                     int add=evaluateExp(operand1,operator1,operand2,2);
-                    if(add==-1)return -3;
-                    else return add;
                 }
             }
             }
              for(int i=0;i<4;i++){
                 if(operand1.find(ops[i])!= std::string::npos ){
                     int add=evaluateExp(operand1,operator1,operand2,0);
-                    if(add==-1)return -3;
-                    else return add;
                 }else if( operand2.find(ops[i])!= std::string::npos ){
                    int add= evaluateExp(operand1,operator1,operand2,1);
-                   if(add==-1)return -3;
-                    else return add;
-
+                }else{
+                    break;
                 }
-        }
 
+        }
+        // to here
         if(isNumber(operand1)&&isNumber(operand2)){
                 address1=stoi(operand1);address2=stoi(operand2);
         }else if(isNumber(operand1)||isNumber(operand2)){
@@ -314,7 +340,6 @@ int Instruction::expression(){
                 address1=sym.getSymbolValue(operand1);address2=stoi(operand2);
                 if(address1==-1)return -4;
             }
-
         }
         else{
             address1=sym.getSymbolValue(operand1);
@@ -349,6 +374,7 @@ string convertDecimalToBinary(int n,int bits)
     return binaryNumber;
 }
 int Instruction::evaluateExp(string p1,string op,string p2,int flag){
+    int sum=0;
     if(flag==0){
         vector<int>num;
         vector<char>oper;
@@ -406,7 +432,7 @@ int evl(vector<char> oper,vector<int> num){
     return sum;
    // cout<<sum;
 }
-void checkAndConvert(string p1,vector<char> &oper,vector<int> &num){
+void checkAndConvert(string p1,vector<char>oper,vector<int>num){
         for(int i=0;i<p1.length();i++){
             if(p1[i]=='+' || p1[i]=='-'||p1[i]=='*'||p1[i]=='/'){
                 oper.push_back(p1[i]);
@@ -422,6 +448,22 @@ void checkAndConvert(string p1,vector<char> &oper,vector<int> &num){
             num.push_back(y);
             token = strtok(NULL, "[+-*/]");
         }
+}
+
+string stringToHex(string s){
+    string a="";
+    for(int i=0;i<s.size();i++){
+            if(s[i]==' '){
+                a+="20";
+            }else{
+                int b=s[i];
+                std::stringstream to_hex;
+                to_hex << std::hex << b;
+                string Hchar=to_hex.str();
+                a+=Hchar;
+            }
+    }
+    return a;
 }
 //to check if a string is a number
 bool isNumber(const std::string &s) {
