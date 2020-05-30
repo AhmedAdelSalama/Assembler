@@ -70,6 +70,8 @@ int main(int argc, char * argv[]) {
             if(spl.instruction == "START"){
                 if(spl.operand1.length()>0){
                     LOCCTR = stoi(spl.operand1,0,16);
+                    ObjectCodeHandler objectCodeHandler("", spl.operand1, spl.label,"");
+                                        objectCodeHandler.record();
                 }
                 if(spl.label.length()>0){
                     symTable.add(spl.label,LOCCTR);
@@ -97,15 +99,17 @@ int main(int argc, char * argv[]) {
                     //ERROR
                     outfile <<"line "<<lineNumber<<":" << result << endl;
                 }
-                /*else if(result == ""){
-                    //storage directive
-                }*/
-                /*else if(result[length-1]=='0'&&result[length-2]=='0'&&result[length-3]=='0'&&result[length-4]=='0'){
-                    //forward reference
-                }*/
+                else if(result==""){
+                     char hexString[20];
+                itoa(LOCCTR, hexString, 16);
+
+                    ObjectCodeHandler objectCodeHandler(result, spl.operand1, spl.label,hexString);
+                                        objectCodeHandler.record();
+                }
+
                 else{
-                    ObjectCodeHandler objectCodeHandler(result, spl.operand1, spl.label);
-                    objectCodeHandler.record();
+                    ObjectCodeHandler objectCodeHandler(result, spl.operand1, spl.label,"");
+                                        objectCodeHandler.record();
                 }
                 LOCCTR += inst.getInstructionLength();
             }

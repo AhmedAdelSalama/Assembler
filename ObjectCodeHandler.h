@@ -21,7 +21,8 @@ public:
     string instruct;
     string operand;
     string label;
-	ObjectCodeHandler(string _instruction,string _operand,string _label);
+    string loctr;
+	ObjectCodeHandler(string _instruction,string _operand,string _label,string _loctr);
 
 	void record();
 
