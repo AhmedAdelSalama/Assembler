@@ -21,7 +21,7 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char * argv[]) {
 
 
 	/* Should be modified to
@@ -54,7 +54,7 @@ int main() {
      int LOCCTR = 0 , lineNumber=0;
      SymbolTable symTable;
      string line;
-     ifstream file("srcfile.txt");
+     ifstream file(argv[1]);
      ofstream outfile;
      outfile.open("report.txt",ios::app);
      while(getline(file,line)){
