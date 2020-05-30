@@ -80,8 +80,8 @@ int main() {
                 //GENERATE HEADER RECORD
             }
             else if(spl.instruction == "END"){
-                //eslam
-                //GENERATE END RECORD
+               ObjectCodeHandler objectCodeHandler("END", spl.operand1, spl.label,"");
+                                        objectCodeHandler.record();
             }
             else if(spl.instruction == "EQU"){
                 int value = inst.expression();

@@ -17,7 +17,11 @@ using namespace std;
     string objcode;
     string format;
     string textaddres;
+    string header;
+    string firstadd;
+
     string update[2][100];
+    int begining=0;
     int i=0;
     int textlength=0;
     int proglength=0;
@@ -62,11 +66,16 @@ string searcharray(string label){
 return "no";
 }
 
+void endob(){
+
+fstream myfile("objcod.txt",ios::in | ios::out | ios::app);
+
+                    myfile<<"E 1000"<<endl;
+
+}
 
 
 
-
- int begining=0;
     	void ObjectCodeHandler::record(){
 
     	int firsttextaddres;
@@ -75,11 +84,32 @@ return "no";
        // in the begining of progrm
 
         if(begining==0){
+                      header="";
                      textaddres=operand;
+                     firstadd=operand;
                      firsttextaddres= std::stoi(textaddres, 0, 16);
                      begining++;
+                     header=header+"H "+label+" "+operand+"            ";
+                    fstream myfile("objcod.txt",ios::in | ios::out | ios::trunc);
+                    myfile<<header<<endl;
                      return;
+
                      }
+
+
+          if(instruct=="END"){
+
+                        lasttextaddress = std::stoi(address, 0, 16);
+                        firsttextaddres=std::stoi(firstadd, 0, 16);
+                        lasttextaddress-=firsttextaddres;
+                        char hexString[20];
+                        itoa(lasttextaddress, hexString, 16);
+                        fstream file("objcod.txt", std::ios::in | std::ios::out);
+                        file.seekp(14);
+                        file <<hexString ;
+                        endob();
+          }
+
             //if objectcode is empty create new text
 
         if(instruct=="" && textrecord!="" ){
@@ -146,7 +176,7 @@ return "no";
                         address=loctr;
                     infile="";
                     if(address.length()>0)
-                     lasttextaddress = std::stoi(address, 0, 16);
+                    lasttextaddress = std::stoi(address, 0, 16);
                     firsttextaddres=std::stoi(textaddres, 0, 16);
                     lasttextaddress-=firsttextaddres;
                     char hexString[20];
