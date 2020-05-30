@@ -1,0 +1,4 @@
+line 1:Error wrong operand
+line 1:Error wrong operand
+line 1:Error wrong operand
+line 1:Error operand is wrong

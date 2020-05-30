@@ -1,0 +1,27 @@
+.LAB1 A
+.321654987321654754754
+PROB1    START   1000
+         LDX     ZERO
+RLOOP    TD      INDEV
+         JEQ     RLOOP
+         RD      INDEV
+         STCH    DATA,X
+         TIX     TEN
+         JLT     RLOOP
+         LDX     ZERO
+WLOOP    LDCH    DATA,X
+         SUB    #32
+         STCH    CHAR
+WRITE    TD      OUTDEV
+         JEQ     WRITE
+         LDCH    CHAR
+         WD      OUTDEV
+         TIX     TEN
+         JLT     WLOOP
+OUTDEV   BYTE    X'05'
+INDEV    BYTE    X'F3'
+DATA     RESB    10
+CHAR     RESB    1
+ZERO     WORD    0
+TEN      WORD    10
+         END     PROB1
