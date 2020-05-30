@@ -27,6 +27,7 @@ using namespace std;
             operand=_operand;
             label=_label;
             loctr=_loctr;
+
 	};
    void splitstr(string str) {
    string word = "";

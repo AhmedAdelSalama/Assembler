@@ -7,6 +7,7 @@
 //============================================================================
 
 #include <iostream>
+#include <stdlib.h>
 #include <regex>
 #include <fstream>
 #include <algorithm>
@@ -56,6 +57,11 @@ int main(int argc, char * argv[]) {
      string line;
      ifstream file(argv[1]);
      ofstream outfile;
+     ofstream ofs;
+     ofs.open("report.txt", std::ofstream::out | std::ofstream::trunc);
+     ofs.close();
+     ofs.open("objcod.txt", ios::out | ios::trunc);
+     ofs.close();
      outfile.open("report.txt",ios::app);
      while(getline(file,line)){
         lineNumber++;
@@ -98,6 +104,7 @@ int main(int argc, char * argv[]) {
                 if(result[0]=='E'){
                     //ERROR
                     outfile <<"line "<<lineNumber<<":" << result << endl;
+                    exit(1);
                 }
                 else if(result==""){
                      char hexString[20];
@@ -119,37 +126,7 @@ int main(int argc, char * argv[]) {
      }
      file.close();
      outfile.close();
-	//Example
-
-	//If you found a label, do your magic and insert it into the Symtable
-	//Don't forget to consider a place for the registers @see SymbolTable.h
-
-	//åÈÏ ÛÑÖå ÇáÊæÖíÍ æ ãáæÔ ÚáÇÞÉ ÈÇáæÇÞÚ
-	//string line[3] = filterLine(readLine());
-
-	//dummy variables
-	//string label;		//line[0]
-	//string operation;	//line[1]
-	//string operands;	//line[2]
-	//Expression exp(operands, SymTable);
-
-	//real code
-	//Instruction inst(label, operation, exp, LOCCTR);
-	//bool isValid = assembler.handle(inst);
-
-	//if(isValid){
-		//continue
-	//}
-	//else{
-		//ÔæÝ Çáí íÑíÍß ÚÇæÒ ÊÞÝá ÇáÈÑäÇãÌ Ýí æÔå ÎÇáÕ ãÚäÏíÔ ãÇäÚ ¡ ÚÇæÒ ÊÚáã Úáì ÇáÓØæÑ æ ÊÚÑÝå ÛáØÊå Ýí ÇáÂÎÑ ãÔ æÍÔ ÈÑÖæ
-	//}
-
-	//update LOCCTR
-	//LOCCTR += inst.getInstructionLength();
-
-	//and loop until END is met.
 
 	return 0;
 }
 
-//	Ctrl + B before running !!
