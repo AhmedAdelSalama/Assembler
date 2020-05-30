@@ -28,8 +28,8 @@ Instruction::Instruction(string _label, string _operation, string _operand1,
 
 	LOCCTR = _LOCCTR;
 	sym = _sym;
-
 }
+
 string Upper(string s);
 bool isRegister(string r);
 string convertDecimalToBinary(int n, int bits);

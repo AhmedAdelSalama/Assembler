@@ -6,7 +6,6 @@
  */
 
 #include <string>
-#include "Expression.h"
 #include "SymbolTable.h"
 
 using namespace std;

@@ -17,35 +17,12 @@
 #include "Registers.h"
 #include "ObjectTable.h"
 #include "Instruction.h"
-#include "InstructionHandler.h"
 #include "ObjectCodeHandler.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
 
-	/* Should be modified to
-	 * TODO LOCCTR = program start position.
-	 * be careful with it, since it will be passed to every
-	 * instruction and will be incremented as follows:
-	 * LOCCTR += <some instruction>.length();
-	 */
-
-	// Ahmed Salama will fill out the Symbol Table,
-	// and will be responsible for:
-	// -> START (Store the program name and Initial LOCCTR)
-	// -> EQU (Just treat it like any other entity in the symbol table) Directive as well. (END is just a flag)
-	//---------------------------------------------------------------- *
-	//SymbolTable SymTable;
-	//InstructionHandler assembler;
-	//General Algorithm
-	/**
-	 * read a line
-	 * Identify it using regex
-	 * detect labels, store its address or put a * if not defined yet
-	 * pass the instruction to the Instruction Handler
-	 * repeat
-	 */
 	int LOCCTR = 0, lineNumber = 0;
 	SymbolTable symTable;
 	string line;
@@ -94,7 +71,9 @@ int main(int argc, char *argv[]) {
 					symTable.add(spl.label, LOCCTR);
 				}
 				string result = inst.perform();
-				int length = result.length();
+
+				// Unused int length = result.length();
+
 				if (result[0] == 'E') {
 					//ERROR
 					outfile << "line " << lineNumber << ":" << result << endl;
